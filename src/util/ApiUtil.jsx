@@ -85,3 +85,20 @@ export const loginApi = async (username, password) => {
     return response;
   }
 };
+
+export const forgotPasswordApi = async (email) => {
+  try {
+    const url = `${API_BASE_URL}/user/reset/${email}`;
+    const apiResponse = await axios.get(url);
+    if (apiResponse.status === 200) {
+      response = frameResponse(1);
+    }
+  } catch (err) {
+    if (err.response) {
+      response = frameResponse(0, err.response.data.message);
+    }
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
