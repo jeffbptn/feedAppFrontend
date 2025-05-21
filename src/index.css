@@ -12,5 +12,5 @@ body,
 
 
 .splash-container {
-    background-image: url(./assets/images/splash-background.jpg);
+    background-image: url("./assets/images/splash-background.jpg");
 }
