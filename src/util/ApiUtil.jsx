@@ -45,3 +45,22 @@ export const registerApi = async (
     return response;
   }
 };
+
+export const verifyEmailApi = async (token) => {
+  try {
+    const url = `${API_BASE_URL}/user/verify/email`;
+    const apiResponse = await axios.get(url, {
+      headers: { Authorization: frameToken(token) },
+    });
+    if (apiResponse.status === 200) {
+      response = frameResponse(1, apiResponse.data);
+    }
+  } catch (err) {
+    if (err.response) {
+      response = frameResponse(0, err.response.data.message);
+    }
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
