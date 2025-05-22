@@ -47,6 +47,7 @@ export const registerApi = async (
 };
 
 export const verifyEmailApi = async (token) => {
+  let response = frameResponse();
   try {
     const url = `${API_BASE_URL}/user/verify/email`;
     const apiResponse = await axios.get(url, {
@@ -66,6 +67,7 @@ export const verifyEmailApi = async (token) => {
 };
 
 export const loginApi = async (username, password) => {
+  let response = frameResponse();
   try {
     const url = `${API_BASE_URL}/user/login`;
     const apiResponse = await axios.post(url, { username, password });
@@ -87,6 +89,7 @@ export const loginApi = async (username, password) => {
 };
 
 export const forgotPasswordApi = async (email) => {
+  let response = frameResponse();
   try {
     const url = `${API_BASE_URL}/user/reset/${email}`;
     const apiResponse = await axios.get(url);
@@ -104,6 +107,7 @@ export const forgotPasswordApi = async (email) => {
 };
 
 export const resetPasswordApi = async (token, password) => {
+  let response = frameResponse();
   try {
     const url = `${API_BASE_URL}/user/reset`;
     const apiResponse = await axios.post(
@@ -127,6 +131,7 @@ export const resetPasswordApi = async (token, password) => {
 };
 
 export const sessionApi = async (token) => {
+  let response = frameResponse();
   try {
     const url = `${API_BASE_URL}/user/get`;
     const apiResponse = await axios.get(url, {
