@@ -144,3 +144,37 @@ export const sessionApi = async (token) => {
     return response;
   }
 };
+
+export const updatePublicProfileApi = async (
+  token,
+  bio,
+  city,
+  country,
+  headline,
+  picture
+) => {
+  try {
+    const url = `${API_BASE_URL}/user/update/profile`;
+    const apiResponse = await axios.post(
+      url,
+      {
+        bio,
+        city,
+        country,
+        headline,
+        picture,
+      },
+      { headers: { Authorization: frameToken(token) } }
+    );
+    if (apiResponse.status === 200) {
+      response = frameResponse(1, apiResponse.data);
+    }
+  } catch (err) {
+    if (err.response) {
+      response = frameResponse(0, err.response.data.message);
+    }
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
