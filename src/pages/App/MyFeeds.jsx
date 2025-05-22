@@ -85,6 +85,7 @@ const MyFeeds = () => {
                   lastName={user.lastName}
                   profilePicture={user.profile.picture}
                   feedMetaData={feedMetaData}
+                  loadOnDelete={getMyFeeds}
                 />
               )
             )}
