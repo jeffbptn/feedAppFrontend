@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import Moment from "moment";
+import moment from "moment";
 
 import { AppContext } from "../context/applicationContext";
 
@@ -73,7 +73,7 @@ const FeedCard = ({
         </div>
         <div className="text-xs  mt-0.5 text-gray-500">
           {cCreatedOn !== "now" ? (
-            <Moment format="LLL">{cCreatedOn}</Moment>
+            <moment format="LLL">{cCreatedOn}</moment>
           ) : (
             "now"
           )}
