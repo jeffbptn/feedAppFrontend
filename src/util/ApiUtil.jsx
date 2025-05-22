@@ -183,3 +183,28 @@ export const updatePublicProfileApi = async (
     return response;
   }
 };
+
+export const addFeedApi = async (token, content, picture) => {
+  let response = frameResponse();
+  try {
+    const url = `${API_BASE_URL}/feeds`;
+    const apiResponse = await axios.post(
+      url,
+      {
+        content,
+        picture,
+      },
+      { headers: { Authorization: frameToken(token) } }
+    );
+    if (apiResponse.status === 200) {
+      response = frameResponse(1);
+    }
+  } catch (err) {
+    if (err.response) {
+      response = frameResponse(0, err.response.data.message);
+    }
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
