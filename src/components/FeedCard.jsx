@@ -72,11 +72,7 @@ const FeedCard = ({
           </div>
         </div>
         <div className="text-xs  mt-0.5 text-gray-500">
-          {cCreatedOn !== "now" ? (
-            <moment format="LLL">{cCreatedOn}</moment>
-          ) : (
-            "now"
-          )}
+          {cCreatedOn !== "now" ? moment(createdOn).format("LLL") : "now"}
         </div>
       </div>
     </div>
@@ -146,7 +142,7 @@ const FeedCard = ({
                   @{username}
                 </div>
                 <div className="text-gray-600 font-thin text-xs">
-                  • <Moment format="LLL">{createdOn}</Moment>
+                  • {moment(createdOn).format("LLL")}
                 </div>
               </div>
             </div>
@@ -171,11 +167,11 @@ const FeedCard = ({
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
               ></path>
             </svg>
@@ -231,10 +227,10 @@ const FeedCard = ({
                     width="16"
                     height="16"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
