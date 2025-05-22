@@ -21,7 +21,7 @@ import VerifyEmail from "../pages/User/VerifyEmail";
 import ForgotPassword from "../pages/User/ForgotPassword";
 import ResetPassword from "../pages/User/ResetPassword";
 import Dashboard from "../pages/App/Dashboard";
-// import Profile from "../pages/App/Profile";
+import Profile from "../pages/App/Profile";
 import CompleteProfile from "../pages/App/CompleteProfile";
 import MyFeeds from "../pages/App/MyFeeds";
 
@@ -90,7 +90,7 @@ const AppRoutes = () => {
           <Route path="*" element={<Navigate to="/app/dashboard" replace />} />
           <Route exact path="/app/dashboard" element={<Dashboard />} />
           <Route exact path="/app/myFeeds" element={<MyFeeds />} />
-          {/* <Route exact path="/app/profile" element={<Profile />} /> */}
+          <Route exact path="/app/profile" element={<Profile />} />
           <Route
             exact
             path="/app/completeProfile"

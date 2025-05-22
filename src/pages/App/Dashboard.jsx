@@ -1,7 +1,8 @@
 import React from "react";
+import MyProfile from "../../components/MyProfile";
 
 const Dashboard = () => {
-  return <>Dashboard Page</>;
+  return <MyProfile />;
 };
 
 export default Dashboard;
