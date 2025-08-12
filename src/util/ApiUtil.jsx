@@ -158,6 +158,7 @@ export const updatePublicProfileApi = async (
   headline,
   picture
 ) => {
+  let response = frameResponse();
   try {
     const url = `${API_BASE_URL}/user/update/profile`;
     const apiResponse = await axios.post(
@@ -314,6 +315,54 @@ export const deleteFeedsApi = async (token, feedId) => {
   try {
     const url = `${API_BASE_URL}/feeds/${feedId}`;
     const apiResponse = await axios.delete(url, {
+      headers: { Authorization: frameToken(token) },
+    });
+    if (apiResponse.status === 200) {
+      response = frameResponse(1, apiResponse.data);
+    }
+  } catch (err) {
+    if (err.response) {
+      response = frameResponse(0, err.response.data.message);
+    }
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
+
+export const generatePortraitApi = async (token, style, gender, additional) => {
+  let response = frameResponse();
+  try {
+    const url = `${API_BASE_URL}/user/generate-and-set-avatar`;
+    const apiResponse = await axios.post(
+      url,
+      {
+        style: style,
+        gender: gender,
+        additionalPrompt: additional,
+      }, //Extra parameters needed. Should double check these.
+      {
+        headers: { Authorization: frameToken(token) },
+      }
+    );
+    if (apiResponse.status === 200) {
+      response = frameResponse(1, apiResponse.data);
+    }
+  } catch (err) {
+    if (err.response) {
+      response = frameResponse(0, err.response.data.message);
+    }
+    console.log(err);
+  } finally {
+    return response;
+  }
+};
+
+export const suggestCommentsApi = async (feedId, token) => {
+  let response = frameResponse();
+  try {
+    const url = `${API_BASE_URL}/feeds/${feedId}/comment-suggestions`;
+    const apiResponse = await axios.get(url, {
       headers: { Authorization: frameToken(token) },
     });
     if (apiResponse.status === 200) {

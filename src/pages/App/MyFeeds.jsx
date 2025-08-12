@@ -49,7 +49,7 @@ const MyFeeds = () => {
   };
 
   return (
-    <main className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-12 mx-0 md:mx-12 w-2xl container px-2 mx-auto">
+    <main className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-12 mx-0 md:mx-12 container px-2 mx-auto">
       <MyProfile />
       <article>
         <InfiniteScroll

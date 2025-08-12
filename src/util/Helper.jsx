@@ -11,6 +11,10 @@ export const convertBase64 = (file) => {
   });
 };
 
+export const convertImage = (base64Str) => {
+  
+}
+
 export const resizeImage = (base64Str, maxWidth = 500, maxHeight = 500) => {
   return new Promise((resolve) => {
     let img = new Image();

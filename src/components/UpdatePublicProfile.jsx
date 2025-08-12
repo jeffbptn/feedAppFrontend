@@ -9,9 +9,12 @@ import BigTextField from "./BigTextField";
 import Button from "./Button";
 import ImageCropper from "./ImageCropper";
 
-import { updatePublicProfileApi } from "../util/ApiUtil";
+import { generatePortraitApi, updatePublicProfileApi } from "../util/ApiUtil";
 import { AppContext } from "../context/applicationContext";
 import { convertBase64 } from "../util/Helper";
+import SettingsModal from "./SettingsModal";
+import LoadingIndicator from "./LoadingIndicator";
+import LoadingIndicatorModal from "./LoadingIndicatorModal";
 
 const UpdatePublicProfile = ({
   bio = "",
@@ -22,11 +25,14 @@ const UpdatePublicProfile = ({
 }) => {
   const formikRef = useRef();
   const imageSelectRef = useRef();
+  const genImageRef = useRef();
 
   const [isFetching, setIsFetching] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadImageData, setUploadImageData] = useState(undefined);
   const [imageSrc, setImageSrc] = useState(NoProfileImage);
+  const [settingsIsOpen, setSettingsOpen] = useState(false);
+  const [prompt, setPrompt] = useState(undefined);
 
   const appContext = useContext(AppContext);
   const token = appContext.getSession();
@@ -49,6 +55,10 @@ const UpdatePublicProfile = ({
       formikRef.current.setFieldValue("picture", undefined);
     }
     setIsOpen(false);
+  };
+
+  const closeSettings = () => {
+    setSettingsOpen(false);
   };
 
   const onSelectFile = async (e) => {
@@ -92,8 +102,45 @@ const UpdatePublicProfile = ({
     picture: Yup.string().required("Required"),
   });
 
+  // Should be roughly correct. Can't properly test due to API issues.
+  const generateImage = async (token, prompt) => {
+    if (!isFetching) {
+      setIsFetching(true);
+
+      const apiResponse = await generatePortraitApi(
+        token,
+        prompt.style,
+        prompt.gender,
+        prompt.additionalPrompts
+      );
+
+      if (apiResponse.status === 1) {
+        setUploadImageData("data:image/png;base64," + apiResponse.payLoad);
+        setIsOpen(true);
+      } else {
+        formikRef.current.setFieldValue("formMessage", apiResponse.payLoad);
+      }
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    if (prompt) {
+      console.log(prompt);
+      generateImage(token, prompt);
+    }
+  }, [prompt]);
+
   return (
     <>
+      {settingsIsOpen && (
+        <SettingsModal
+          modalIsOpen={settingsIsOpen}
+          closeModal={closeSettings}
+          setPrompt={setPrompt}
+        />
+      )}
+      {isFetching && <LoadingIndicatorModal modalIsOpen={isFetching} />}
       {modalIsOpen && uploadImageData && (
         <ImageCropper
           modalIsOpen={modalIsOpen}
@@ -133,15 +180,28 @@ const UpdatePublicProfile = ({
                 src={imageSrc}
               />
 
-              <button
-                className="mx-auto px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
-                onClick={(e) => {
-                  e.preventDefault();
-                  imageSelectRef.current.click();
-                }}
-              >
-                Upload Photo
-              </button>
+              <div class="flex justify-center">
+                <button
+                  className="mx-auto px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    imageSelectRef.current.click();
+                  }}
+                >
+                  Upload Photo
+                </button>
+
+                <button
+                  className="mx-auto px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // generateImage(token);
+                    setSettingsOpen(true);
+                  }}
+                >
+                  Generate Image
+                </button>
+              </div>
 
               <input
                 type="file"

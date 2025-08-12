@@ -5,7 +5,11 @@ import moment from "moment";
 
 import { AppContext } from "../context/applicationContext";
 
-import { addFeedMetaDataApi, deleteFeedsApi } from "../util/ApiUtil";
+import {
+  addFeedMetaDataApi,
+  deleteFeedsApi,
+  suggestCommentsApi,
+} from "../util/ApiUtil";
 
 const FeedCard = ({
   feedId,
@@ -118,6 +122,11 @@ const FeedCard = ({
 
   const addComment = async (values) => {
     addFeedMetaData(false, values.comment);
+  };
+
+  const suggestComments = async () => {
+    const res = await suggestCommentsApi(feedId, token);
+    console.log(res.payLoad.suggestions);
   };
 
   const deleteFeed = async () => {
@@ -271,6 +280,7 @@ const FeedCard = ({
                 type="search"
                 className="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-purple-500 focus:text-gray-900 focus:shadow-outline-blue custom-br-25"
                 placeholder="Post a comment..."
+                onFocus={suggestComments}
               />
             </div>
           </Form>

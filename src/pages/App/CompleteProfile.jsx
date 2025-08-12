@@ -19,7 +19,7 @@ const CompleteProfile = () => {
   }, [userData]);
 
   return (
-    <main className="grid grid-cols-1 lg:grid-cols-1 gap-6 my-12 md:mx-12 w-2xl container px-2 mx-auto">
+    <main className="grid grid-cols-1 lg:grid-cols-1 gap-6 my-12 md:mx-12 container px-2 mx-auto">
       <UpdatePublicProfile />
     </main>
   );

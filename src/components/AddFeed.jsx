@@ -45,6 +45,7 @@ const AddFeed = () => {
 
   const onFormSubmit = async (values) => {
     console.log(values);
+    console.log(token);
     if (!isFetching) {
       setIsFetching(true);
 
