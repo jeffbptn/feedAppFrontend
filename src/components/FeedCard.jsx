@@ -4,12 +4,10 @@ import * as Yup from "yup";
 import moment from "moment";
 
 import { AppContext } from "../context/applicationContext";
+import SuggestionArea from "./SuggestionArea";
 
-import {
-  addFeedMetaDataApi,
-  deleteFeedsApi,
-  suggestCommentsApi,
-} from "../util/ApiUtil";
+import { addFeedMetaDataApi, deleteFeedsApi } from "../util/ApiUtil";
+import Button from "./Button";
 
 const FeedCard = ({
   feedId,
@@ -34,6 +32,9 @@ const FeedCard = ({
   const [userLiked, setUserLiked] = useState(false);
   const [comments, setComments] = useState([]);
 
+  const [suggestionActive, setSuggestionActive] = useState(false);
+  const [suggestedComment, setSuggestedComment] = useState();
+
   useEffect(() => {
     const commentsData = [];
     let likesCount = 0;
@@ -57,6 +58,13 @@ const FeedCard = ({
     setComments(commentsData);
     setNoOfLikes(likesCount);
   }, [feedMetaData]);
+
+  useEffect(() => {
+    if (suggestedComment) {
+      console.log(suggestedComment);
+      addComment({ comment: suggestedComment });
+    }
+  }, [suggestedComment]);
 
   const CommentCard = ({
     cFirstName,
@@ -122,11 +130,7 @@ const FeedCard = ({
 
   const addComment = async (values) => {
     addFeedMetaData(false, values.comment);
-  };
-
-  const suggestComments = async () => {
-    const res = await suggestCommentsApi(feedId, token);
-    console.log(res.payLoad.suggestions);
+    setSuggestionActive(false);
   };
 
   const deleteFeed = async () => {
@@ -252,37 +256,50 @@ const FeedCard = ({
       >
         {() => (
           <Form>
-            <div className="relative flex items-center self-center w-full max-w-l p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
-              <span className="absolute inset-y-0 right-0 flex items-center pr-6">
-                <button
-                  type="submit"
-                  className="p-1 focus:outline-none focus:shadow-none hover:text-purple-500"
-                >
-                  <svg
-                    className="ml-1"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    height="16"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+            <div className="relative items-center self-center w-full max-w-l p-4 overflow-hidden text-gray-600 focus-within:text-gray-400 inline-block">
+              <div className="w-full">
+                <Field
+                  id="comment"
+                  name="comment"
+                  type="search"
+                  className="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-purple-500 focus:text-gray-900 focus:shadow-outline-blue custom-br-25"
+                  placeholder="Post a comment..."
+                  onFocus={() => {
+                    setSuggestionActive(true);
+                  }}
+                />
+                <span className="absolute inset-y-0 right-0 flex items-center pr-6">
+                  <button
+                    type="submit"
+                    className="p-1 focus:outline-none focus:shadow-none hover:text-purple-500"
                   >
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                  </svg>
-                </button>
-              </span>
-              <Field
-                id="comment"
-                name="comment"
-                type="search"
-                className="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-purple-500 focus:text-gray-900 focus:shadow-outline-blue custom-br-25"
-                placeholder="Post a comment..."
-                onFocus={suggestComments}
-              />
+                    <svg
+                      className="ml-1"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="22" y1="2" x2="11" y2="13"></line>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                  </button>
+                </span>
+              </div>
             </div>
+            {suggestionActive && (
+              <>
+                <SuggestionArea
+                  feedId={feedId}
+                  token={token}
+                  setComment={setSuggestedComment}
+                />
+              </>
+            )}
           </Form>
         )}
       </Formik>
