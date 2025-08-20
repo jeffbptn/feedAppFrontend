@@ -75,7 +75,6 @@ const SettingsModal = ({ modalIsOpen, closeModal, setPrompt }) => {
   };
 
   const generatePrompt = async (values) => {
-    console.log(values);
     const promptSettings = {
       style: values.imageStyle,
       gender: values.gender,
@@ -142,7 +141,7 @@ const SettingsModal = ({ modalIsOpen, closeModal, setPrompt }) => {
                       <button
                         value={"Remove"}
                         type="button"
-                        className={`px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50`}
+                        className={`px-4 mt-2 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50`}
                         onClick={(e) => {
                           arrayHelpers.remove(i);
                           removeInput(i);
@@ -156,7 +155,7 @@ const SettingsModal = ({ modalIsOpen, closeModal, setPrompt }) => {
               )}
             />
             <button
-              className="mx-auto px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
+              className="mx-auto mt-2 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
               onClick={addInput}
             >
               Add additional prompts{" "}
