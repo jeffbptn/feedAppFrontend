@@ -333,7 +333,7 @@ export const deleteFeedsApi = async (token, feedId) => {
 export const generatePortraitApi = async (token, style, gender, additional) => {
   let response = frameResponse();
   try {
-    const url = `${API_BASE_URL}/user/generate-and-set-avatar`;
+    const url = `${API_BASE_URL}/user/generate/profile/image`;
     const apiResponse = await axios.post(
       url,
       {

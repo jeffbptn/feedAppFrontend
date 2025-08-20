@@ -115,7 +115,10 @@ const UpdatePublicProfile = ({
       );
 
       if (apiResponse.status === 1) {
-        setUploadImageData("data:image/png;base64," + apiResponse.payLoad);
+        console.log(apiResponse);
+        setUploadImageData(
+          "data:image/png;base64," + apiResponse.payLoad.image
+        );
         setIsOpen(true);
       } else {
         formikRef.current.setFieldValue("formMessage", apiResponse.payLoad);
@@ -195,7 +198,6 @@ const UpdatePublicProfile = ({
                   className="mx-auto px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-600 rounded-md hover:bg-purple-400 focus:outline-none focus:bg-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
                   onClick={(e) => {
                     e.preventDefault();
-                    // generateImage(token);
                     setSettingsOpen(true);
                   }}
                 >
